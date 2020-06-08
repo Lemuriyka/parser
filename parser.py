@@ -11,6 +11,9 @@ BASE_SEARCH_ID = "make-everything-ok-button"
 
 # Totally excessive but PyDictionary and Vocabulary are not supported anymore
 def synonyms(term):
+    import nltk
+    nltk.download('wordnet')
+    
     from itertools import chain
     from nltk.corpus import wordnet
 
@@ -105,7 +108,6 @@ def main(argv):
     element title match contribution: {}%,
     element text match contribution: {}%
     """.format(max_score, result[0]['class'], result[0]['href'], result[0]['title'], result[0]['text']))
-    # print(result[0])
 
 
 if __name__ == '__main__':
