@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 
 import sys
+import nltk
 import getopt
 
 from bs4 import BeautifulSoup
+from itertools import chain
+from nltk.corpus import wordnet
+
+nltk.download('wordnet')
 
 
 BASE_SEARCH_ID = "make-everything-ok-button"
@@ -11,12 +16,6 @@ BASE_SEARCH_ID = "make-everything-ok-button"
 
 # Totally excessive but PyDictionary and Vocabulary are not supported anymore
 def synonyms(term):
-    import nltk
-    nltk.download('wordnet')
-    
-    from itertools import chain
-    from nltk.corpus import wordnet
-
     synonyms = wordnet.synsets(term)
     lemmas = list(set(chain.from_iterable([word.lemma_names() for word in synonyms])))
     return lemmas
@@ -32,6 +31,7 @@ def calc_text_match(source_text, target_text):
 
     target_set = target_text.strip().replace('-', ' ').split()
     match_score = 0
+    
     for word in target_set:
         if word.lower() in source_pool:
             match_score += 25/len(target_set)
